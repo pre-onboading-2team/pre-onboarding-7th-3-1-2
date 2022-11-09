@@ -1,4 +1,4 @@
-import { createElement } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const KeywordsList = ({
@@ -7,8 +7,20 @@ const KeywordsList = ({
   originalInputValue,
 }) => {
   const isSameWithCurrentIndex = (idx) => idx === currentIndex;
+  const ul = useRef();
+  const replaceWithBold = (word, sentence) => {
+    return sentence.replace(word, `<b>${originalInputValue}</b>`);
+  };
+  useEffect(() => {
+    if (ul?.current?.innerHTML) {
+      ul.current.childNodes.forEach((node) => {
+        node.innerHTML = replaceWithBold(originalInputValue, node.innerHTML);
+      });
+    }
+  }, [keyWords]);
+
   return (
-    <Ul>
+    <Ul ref={ul}>
       {keyWords.map(({ sickNm }, listIndex) => (
         <Li key={sickNm} isSelected={isSameWithCurrentIndex(listIndex)}>
           {sickNm}
