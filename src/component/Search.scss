@@ -88,7 +88,6 @@
 
 .filter{
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
   background-color: #FFFFFF;
   width: 320px;
@@ -100,6 +99,14 @@
   height: 75px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  align-items: flex-start;
+
+  
+  .filterSearch{
+    color: #6A737B;
+    padding-top: 8px;
+    cursor: pointer;
+  }
 
   &.under{
     border-top: 0.5px solid #ccc; 
@@ -110,9 +117,27 @@
     border-bottom-right-radius: 15px;
     font-family: inherit;
 
-  }
+    & > ul{
+      padding: 0;
+      list-style:none;
+      text-align: left;
+      & > li {
+        display: inline-block;
+        margin: 15px 3px;
+        padding: 10px 12px;
+        border-radius: 20px;
+        background-color: rgb(207, 235, 247);
+        color: rgb(37, 118, 240);
+        font-family: inherit;
 
 
+      }
+
+    }
+
+
+
   }
+}
 }}
       
