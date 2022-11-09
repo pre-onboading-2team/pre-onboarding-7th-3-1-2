@@ -70,14 +70,49 @@
       &:focus::placeholder{
         color:transparent;
     }
-
       .search{
         color: #6A737B;
         min-width: 16px;
         height: 16px;
+    }
+  }
+}
+  
+.filterWrap {
+  display: none;
+  &.on{
+    display: block;
+  }
+}
 
-    }
+
+.filter{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  width: 320px;
+  margin-top: 10px;
+  padding: 20px 20px;
+  border-radius: 15px;
+  font-size: 12px; 
+  color: #6A737B;
+  height: 75px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  &.under{
+    border-top: 0.5px solid #ccc; 
+    margin: 0;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    font-family: inherit;
+
   }
+
+
   }
-    }
-      }
+}}
+      
