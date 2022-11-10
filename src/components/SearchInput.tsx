@@ -3,14 +3,24 @@ import { MdCancel } from "react-icons/md";
 
 import * as S from "./style";
 
-export const SearchInput = () => {
+interface SearchInputProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  reset: () => void;
+}
+
+export const SearchInput = ({ value, onChange, reset }: SearchInputProps) => {
   return (
     <S.SearchInputBlock>
-      <S.SearchInput placeholder="질환명을 입력해 주세요." />
+      <S.SearchInput
+        placeholder="질환명을 입력해 주세요."
+        value={value}
+        onChange={onChange}
+      />
       <S.SearchIconLeft>
         <HiOutlineSearch size="2rem" color="#a6afb7" />
       </S.SearchIconLeft>
-      <S.SearchIconCancel>
+      <S.SearchIconCancel onClick={reset}>
         <MdCancel size="2rem" color="#a6afb7" />
       </S.SearchIconCancel>
       <S.SearchIconRight>

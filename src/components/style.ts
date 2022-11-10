@@ -93,7 +93,7 @@ export const SearchInput = styled.input`
   }
 `;
 
-export const SearchListBlock = styled.div`
+export const SearchResultBlock = styled.div`
   width: 40rem;
   border-radius: 1rem;
   background: white;
@@ -130,6 +130,11 @@ export const SearchItemText = styled.div`
   font-size: 1.2rem;
 
   color: #a6afb7;
+`;
+
+export const SearchItemError = styled(SearchItemText)`
+  font-size: 1.6rem;
+  color: red;
 `;
 
 export const SearchItemIcon = styled.div`
