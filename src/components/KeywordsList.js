@@ -10,7 +10,6 @@ const KeywordsList = ({
   isLoading,
   removeData,
 }) => {
-  // keywords === null ||
   const isDebouncing = keywords === null;
   const isEmptyData = keywords?.length === 0; //리팩필
 
@@ -33,14 +32,13 @@ const KeywordsList = ({
   return (
     <Ul ref={ul}>
       {(isDebouncing || isLoading) && <div>불러오는 중..</div>}
-      {!isDebouncing &&
-        !isLoading &&
+      {!isLoading &&
         keywords?.map(({ sickNm }, listIndex) => (
           <Li key={sickNm} isSelected={isSameWithCurrentIndex(listIndex)}>
             {sickNm}
           </Li>
         ))}
-      {!isLoading && isEmptyData && <div>결과가 없습니다.</div>}
+      {isEmptyData && <div>결과가 없습니다.</div>}
     </Ul>
   );
 };
