@@ -5,7 +5,9 @@ const KeywordsList = ({
   items: keyWords,
   currentIndex,
   originalInputValue,
+  isLoading,
 }) => {
+  const isEmptyData = keyWords?.length === 0;
   const isSameWithCurrentIndex = (idx) => idx === currentIndex;
   const ul = useRef();
   const replaceWithBold = (word, sentence) => {
@@ -21,11 +23,14 @@ const KeywordsList = ({
 
   return (
     <Ul ref={ul}>
-      {keyWords.map(({ sickNm }, listIndex) => (
-        <Li key={sickNm} isSelected={isSameWithCurrentIndex(listIndex)}>
-          {sickNm}
-        </Li>
-      ))}
+      {isLoading && <div>불러오는 중..</div>}
+      {!isLoading &&
+        keyWords.map(({ sickNm }, listIndex) => (
+          <Li key={sickNm} isSelected={isSameWithCurrentIndex(listIndex)}>
+            {sickNm}
+          </Li>
+        ))}
+      {isEmptyData && !isLoading && <div>결과가 없습니다.</div>}
     </Ul>
   );
 };

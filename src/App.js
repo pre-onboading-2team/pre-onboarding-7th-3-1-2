@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import getKeywords from "./api/getKeywords";
 import KeywordsList from "./components/KeywordsList";
 import { DEBOUNCE_TIME } from "./constants";
+import useAsync from "./hooks/useAsync";
 import useInput from "./hooks/useInput";
 
 function App() {
   const [originalInputValue, setOriginalInputValue] = useState("");
+  const [currentKeywordIndex, setCurrentKeywordIndex] = useState(-1);
   const [inputValue, handleInputChange, setInputValue, isTyping, setIsTyping] =
     useInput("");
-  const [keyWords, setKeyWords] = useState([]);
-  const [currentKeywordIndex, setCurrentKeywordIndex] = useState(-1);
-
+  const {
+    data: keyWords,
+    fetchData,
+    isLoading,
+  } = useAsync(() => getKeywords(inputValue));
   useEffect(() => {
     if (!inputValue || !isTyping) return;
 
     const timer = setTimeout(async () => {
       console.log(inputValue, " api 호출");
       setOriginalInputValue(inputValue);
-      const res = await getKeywords(inputValue);
-      const data = await res.json();
-      setKeyWords(data);
+      fetchData();
     }, DEBOUNCE_TIME);
 
     return () => clearTimeout(timer);
@@ -42,7 +45,7 @@ function App() {
         }
         break;
       }
-      case "ArrowDown":
+      case "ArrowDown": {
         const isLastItem = currentKeywordIndex === keyWords.length - 1;
         e.preventDefault();
         setIsTyping(false);
@@ -50,9 +53,10 @@ function App() {
         setInputValue(keyWords[currentKeywordIndex + 1]?.sickNm);
         setCurrentKeywordIndex((idx) => idx + 1);
         break;
+      }
     }
   };
-
+  // 인덱스 순환 구현해보기
   return (
     <Container className="App">
       <input
@@ -61,12 +65,13 @@ function App() {
         onChange={handleInputChange}
         onKeyDown={handleArrowing}
       />
-      <button onClick={() => setInputValue("담낭")}>클릭</button>
+      <button>검색</button>
       {inputValue && (
         <KeywordsList
           items={keyWords}
           currentIndex={currentKeywordIndex}
           originalInputValue={originalInputValue}
+          isLoading={isLoading}
         />
       )}{" "}
     </Container>
@@ -79,10 +84,3 @@ const Container = styled.div`
   margin: 0 auto;
   max-width: 500px;
 `;
-
-// 요청받은 [1,2,3]
-
-// index = useState(-1)
-// 애로우 키다운 index +  =>  array[index].검색어 => setInputValue(검색어)
-//
-// <목록아이템  isFocused={index === idx(from mapFn)}>{listItem.검색어}</목록아이템 >
