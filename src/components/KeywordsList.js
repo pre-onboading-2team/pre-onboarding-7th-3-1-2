@@ -1,28 +1,36 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { replaceWithBold } from "../utils";
 
 const KeywordsList = ({
-  items: keyWords,
+  items: keywords,
   currentIndex,
   originalInputValue,
   isLoading,
+  removeData,
 }) => {
-  const isEmptyData = keyWords?.length === 0;
+  const isEmptyData = keywords?.length === 0;
   const isSameWithCurrentIndex = (idx) => idx === currentIndex;
   const ul = useRef();
+
   useEffect(() => {
     ul.current.childNodes.forEach((node) => {
       node.innerHTML = replaceWithBold(originalInputValue, node.innerHTML);
     });
-  }, [keyWords]);
+  }, [keywords, ul, originalInputValue]);
+
+  useEffect(() => {
+    return () => {
+      removeData();
+    };
+  }, []);
 
   return (
     <Ul ref={ul}>
       {isLoading && <div>불러오는 중..</div>}
       {!isLoading &&
-        keyWords?.map(({ sickNm }, listIndex) => (
+        keywords?.map(({ sickNm }, listIndex) => (
           <Li key={sickNm} isSelected={isSameWithCurrentIndex(listIndex)}>
             {sickNm}
           </Li>

@@ -16,6 +16,7 @@ function App() {
     data: keyWords,
     fetchData,
     isLoading,
+    removeData,
   } = useAsync(() => getKeywords(inputValue));
   useEffect(() => {
     if (!inputValue || !isTyping) {
@@ -73,6 +74,7 @@ function App() {
           currentIndex={currentKeywordIndex}
           originalInputValue={originalInputValue}
           isLoading={isLoading}
+          removeData={removeData}
         />
       )}{" "}
     </Container>
