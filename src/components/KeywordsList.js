@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
+import { replaceWithBold } from "../utils";
+
 const KeywordsList = ({
   items: keyWords,
   currentIndex,
@@ -10,22 +12,17 @@ const KeywordsList = ({
   const isEmptyData = keyWords?.length === 0;
   const isSameWithCurrentIndex = (idx) => idx === currentIndex;
   const ul = useRef();
-  const replaceWithBold = (word, sentence) => {
-    return sentence.replace(word, `<b>${originalInputValue}</b>`);
-  };
   useEffect(() => {
-    if (ul?.current?.innerHTML) {
-      ul.current.childNodes.forEach((node) => {
-        node.innerHTML = replaceWithBold(originalInputValue, node.innerHTML);
-      });
-    }
+    ul.current.childNodes.forEach((node) => {
+      node.innerHTML = replaceWithBold(originalInputValue, node.innerHTML);
+    });
   }, [keyWords]);
 
   return (
     <Ul ref={ul}>
       {isLoading && <div>불러오는 중..</div>}
       {!isLoading &&
-        keyWords.map(({ sickNm }, listIndex) => (
+        keyWords?.map(({ sickNm }, listIndex) => (
           <Li key={sickNm} isSelected={isSameWithCurrentIndex(listIndex)}>
             {sickNm}
           </Li>
