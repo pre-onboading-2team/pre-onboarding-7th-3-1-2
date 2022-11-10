@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLessThanEqual, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import './Search.scss';
 
+let inputStr = '';
 
 const Search = () => {
   const [value, setValue] = useState('');
-  const [data, setData] = useState([{ sickNm : '' }]);
+  const [data, setData] = useState([{ sickNm: '' }]);
   const [set, setOn] = useState(false);
-
   const changeValue = (e) => {
+
+    inputStr = e.target.value;
     setValue(e.target.value);
     if (e.target.value.length) {
       runServer(e.target.value);
@@ -27,15 +29,49 @@ const Search = () => {
         return response.json();
       })
       .then(result => {
-        setData(result);
+        // setData(result);
 
         if (result.length) {
-          setData(result);
-        }
-         else {
-          setData([{ sickNm: '검색어 없음' }]);
+
+          // 검색어 하이라이트 처리 함수
+          setBoldStr(result)
+
+        } else {
+          setData([{ sickNm: '' }]);
         }
       });
+
+  }
+
+  const setBoldStr = (result) => {
+
+    // 검색 결과가 없으면 로직 실행 안함
+    // if (!result.length) {
+    //   return;
+    // }
+
+    let arr = [];
+    for (let i = 0;i < 5;i++) {
+
+      let mystring = result[i].sickNm;
+      let find = inputStr;
+      let regex = new RegExp(find, "gi");
+      let highlight = mystring.replace(regex, "<span class='highlight'>" + find + "</span>");
+
+      arr.push({
+        sickCd: result[i].sickCd,
+        sickNm: highlight
+      });
+    }
+
+    console.log(arr);
+    setData(arr);
+  }
+
+  const enterInput = (e) => {
+    if (e.keyCode === 13) {
+      runServer(e.target.value);
+    }
   }
 
   const changeClass = (e) => {
@@ -51,7 +87,7 @@ const Search = () => {
       <h2 className="title">국내 모든 임상시험 검색하고 <br></br>온라인으로 참여하기</h2>
       <div className="searchWrap">
         <div className={set ? "searchInner on" : "searchInner"}>
-          <input className="searchBar" placeholder="질환명을 입력해 주세요." onChange={changeValue} />
+          <input className="searchBar" placeholder="질환명을 입력해 주세요." onChange={changeValue} onKeyDown={enterInput} />
           <FontAwesomeIcon icon={faSearch} className="search" />
         </div>
       </div>
@@ -64,17 +100,15 @@ const Search = () => {
 
         <div className="recommend">
           <div className="subTit">추천 검색어</div>
-          <div className={data[0].sickNm ? 'searchData on' : 'searchData'}  >
+          <div className={data[0].sickNm ? 'searchData on' : 'searchData'}>
             {data.map((item, idx) => {
               if (idx < 5) {
-                return (<div className="item" key={idx}>
-                {item.sickNm}
-                </div>);
+                return (<div className="item" key={idx} dangerouslySetInnerHTML={{ __html: item.sickNm }}></div>);
               }
             })}
           </div>
 
-          <div className={value? 'dummyData' : 'dummyData on'}>
+          <div className={value ? 'dummyData' : 'dummyData on'}>
             {recommendList.map((item, idx) => {
               return (<div className="item" key={idx}>
                 {item}
