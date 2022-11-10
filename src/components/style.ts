@@ -22,7 +22,7 @@ export const SearchFormTitle = styled.section`
   line-height: 5rem;
   overflow-wrap: break-word;
 
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 `;
 
 export const SearchInputBlock = styled.div`

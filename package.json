@@ -25,7 +25,8 @@
     "eject": "react-scripts eject",
     "postinstall": "husky install",
     "format": "prettier --cache --write .",
-    "lint": "eslint --cache --fix"
+    "lint": "eslint --cache --fix",
+    "server": "json-server ./src/data/sick.json --port 4000"
   },
   "browserslist": {
     "production": [
