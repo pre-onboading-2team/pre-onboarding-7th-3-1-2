@@ -18,10 +18,11 @@ function App() {
     isLoading,
   } = useAsync(() => getKeywords(inputValue));
   useEffect(() => {
-    if (!inputValue || !isTyping) return;
+    if (!inputValue || !isTyping) {
+      return;
+    }
 
     const timer = setTimeout(async () => {
-      console.log(inputValue, " api 호출");
       setOriginalInputValue(inputValue);
       fetchData();
     }, DEBOUNCE_TIME);
