@@ -20,7 +20,7 @@ export const SearchInput = ({ value, onChange, reset }: SearchInputProps) => {
       <S.SearchIconLeft>
         <HiOutlineSearch size="2rem" color="#a6afb7" />
       </S.SearchIconLeft>
-      <S.SearchIconCancel onClick={reset}>
+      <S.SearchIconCancel value={value} onClick={reset}>
         <MdCancel size="2rem" color="#a6afb7" />
       </S.SearchIconCancel>
       <S.SearchIconRight>

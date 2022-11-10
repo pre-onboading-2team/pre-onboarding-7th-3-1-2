@@ -20,11 +20,11 @@ const SearchForm = () => {
         국내 모든 임상시험 검색하고 온라인으로 참여하기
       </S.SearchFormTitle>
       <SearchInput value={value} onChange={onChange} reset={reset} />
-      {value && (
+      {debouncedValue && (
         <S.SearchResultBlock>
-          {loading && <S.SearchItemText>검색 중 ...</S.SearchItemText>}
+          {loading && <S.SearchItemLabel>검색 중 ...</S.SearchItemLabel>}
           {error && <S.SearchItemError>에러가 발생했습니다</S.SearchItemError>}
-          {items && <SearchList value={value} items={items} />}
+          {items && <SearchList value={debouncedValue} items={items} />}
         </S.SearchResultBlock>
       )}
     </S.SearchFormContainer>

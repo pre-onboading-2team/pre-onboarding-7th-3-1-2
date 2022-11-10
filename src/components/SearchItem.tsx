@@ -1,5 +1,6 @@
 import { HiOutlineSearch } from "react-icons/hi";
 
+import { divideByKeyword } from "../utils";
 import * as S from "./style";
 
 interface SearchItemProps {
@@ -8,17 +9,16 @@ interface SearchItemProps {
 }
 
 export const SearchItem = ({ value, keyword }: SearchItemProps) => {
-  // TODO: 일치 테스트 하이라이트 처리
-  // const matchedText = value.match(new RegExp(keyword, "gi"));
+  const [prefix, subfix] = divideByKeyword(value, keyword);
 
   return (
     <S.SearchItemBlock>
       <S.SearchItemIcon>
         <HiOutlineSearch size="1.8rem" color="#a6afb7" />
       </S.SearchItemIcon>
-      {/* TODO: 일치 텍스트 하이라이트 처리 */}
-      {value}
-      {/* {matchedText} */}
+      <S.SearchItemText>{prefix}</S.SearchItemText>
+      <S.SearchItemMatched>{keyword}</S.SearchItemMatched>
+      <S.SearchItemText>{subfix}</S.SearchItemText>
     </S.SearchItemBlock>
   );
 };

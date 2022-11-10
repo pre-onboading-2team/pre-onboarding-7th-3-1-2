@@ -12,7 +12,7 @@ const SearchList = ({ value, items }: SearchListProps) => {
     <>
       {/* 입력한 값 하이라이트 검색어 노출 */}
       <SearchItem value={value} keyword={value} />
-      <S.SearchItemText>추천 검색어</S.SearchItemText>
+      <S.SearchItemLabel>추천 검색어</S.SearchItemLabel>
       {items.map(({ sickCd, sickNm }) => (
         <SearchItem key={sickCd} value={sickNm} keyword={value} />
       ))}

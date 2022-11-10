@@ -37,11 +37,13 @@ export const SearchIconLeft = styled.div`
   left: 2rem;
 `;
 
-export const SearchIconCancel = styled.p`
+export const SearchIconCancel = styled.p<{ value: string }>`
   display: none;
   position: absolute;
   right: 6rem;
   cursor: pointer;
+
+  ${(props) => props.value && `display:block;`}
 `;
 
 export const SearchIconRight = styled.div`
@@ -87,10 +89,6 @@ export const SearchInput = styled.input`
   &:focus + div {
     display: none;
   }
-
-  &:focus ~ p {
-    display: block;
-  }
 `;
 
 export const SearchResultBlock = styled.div`
@@ -123,7 +121,7 @@ export const SearchItemBlock = styled.div`
   }
 `;
 
-export const SearchItemText = styled.div`
+export const SearchItemLabel = styled.div`
   width: 100%;
   padding: 1rem 2rem;
 
@@ -132,7 +130,12 @@ export const SearchItemText = styled.div`
   color: #a6afb7;
 `;
 
-export const SearchItemError = styled(SearchItemText)`
+export const SearchItemText = styled.span``;
+export const SearchItemMatched = styled.span`
+  font-weight: 700;
+`;
+
+export const SearchItemError = styled(SearchItemLabel)`
   font-size: 1.6rem;
   color: red;
 `;
