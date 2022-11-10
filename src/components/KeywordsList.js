@@ -6,20 +6,23 @@ import { replaceWithBold } from "../utils";
 const KeywordsList = ({
   items: keywords,
   currentIndex,
-  originalInputValue,
+  savedInputValue,
   isLoading,
   removeData,
 }) => {
-  const isEmptyData = keywords === null || keywords.length === 0; //리팩필
+  // keywords === null ||
+  const isDebouncing = keywords === null;
+  const isEmptyData = keywords?.length === 0; //리팩필
+
   const isSameWithCurrentIndex = (idx) => idx === currentIndex;
   const ul = useRef();
 
   useEffect(() => {
     if (!keywords) return;
-    ul.current.childNodes.forEach((node) => {
-      node.innerHTML = replaceWithBold(originalInputValue, node.innerHTML);
+    ul.current.childNodes.forEach((li) => {
+      li.innerHTML = replaceWithBold(savedInputValue, li.innerHTML);
     });
-  }, [keywords, ul, originalInputValue]);
+  }, [keywords, ul]);
 
   useEffect(() => {
     return () => {
@@ -29,14 +32,15 @@ const KeywordsList = ({
 
   return (
     <Ul ref={ul}>
-      {isLoading && <div>불러오는 중..</div>}
-      {!isLoading &&
+      {(isDebouncing || isLoading) && <div>불러오는 중..</div>}
+      {!isDebouncing &&
+        !isLoading &&
         keywords?.map(({ sickNm }, listIndex) => (
           <Li key={sickNm} isSelected={isSameWithCurrentIndex(listIndex)}>
             {sickNm}
           </Li>
         ))}
-      {isEmptyData && !isLoading && <div>결과가 없습니다.</div>}
+      {!isLoading && isEmptyData && <div>결과가 없습니다.</div>}
     </Ul>
   );
 };

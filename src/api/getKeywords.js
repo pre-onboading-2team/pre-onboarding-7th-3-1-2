@@ -1,7 +1,7 @@
 import BASE_URL from "./BASE_URL";
 
 const getKeywords = async (keyword) => {
-  const url = `${BASE_URL}/?q=${keyword}`;
+  const url = `${BASE_URL}/?q=${keyword}&_limit=7`;
   const cacheStorage = await caches.open("sick-data");
   const storedCache = await cacheStorage.match(url);
 
@@ -19,7 +19,7 @@ const getKeywords = async (keyword) => {
     const data = await res.json();
     return data;
   } catch (e) {
-    console.log("에러", e);
+    console.log(e);
   }
 };
 

@@ -3,6 +3,7 @@ import { useState } from "react";
 const useArrowKey = (keywords) => {
   const [currentKeywordIndex, setCurrentKeywordIndex] = useState(-1);
   const handleArrowing = (e) => {
+    if (!keywords) return;
     switch (e.key) {
       case "ArrowUp": {
         e.preventDefault();
@@ -26,7 +27,7 @@ const useArrowKey = (keywords) => {
       }
     }
   };
-  return [currentKeywordIndex, handleArrowing];
+  return [currentKeywordIndex, setCurrentKeywordIndex, handleArrowing];
 };
 
 export default useArrowKey;

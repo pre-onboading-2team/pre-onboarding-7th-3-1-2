@@ -7,9 +7,14 @@ import { DEBOUNCE_TIME } from "./constants";
 import { useArrowKey, useAsync, useDebounce, useInput } from "./hooks";
 
 function App() {
-  const [originalInputValue, setOriginalInputValue] = useState("");
-  const [inputValue, handleInputChange, setInputValue, isTyping, setIsTyping] =
-    useInput("");
+  const [savedInputValue, setSavedInputValue] = useState("");
+  const [
+    inputValue,
+    handleInputChange,
+    setInputValue,
+    isChangedByTyping,
+    setIsChangedByTyping,
+  ] = useInput("");
   const {
     data: keywords,
     asyncFn: fetchData,
@@ -17,27 +22,30 @@ function App() {
     removeData,
   } = useAsync(() => getKeywords(debouncedInputValue));
   const debouncedInputValue = useDebounce(inputValue, DEBOUNCE_TIME);
-  const [currentKeywordIndex, handleArrow] = useArrowKey(keywords);
+  const [currentKeywordIndex, setCurrentKeywordIndex, handleArrow] =
+    useArrowKey(keywords);
 
   useEffect(() => {
-    if (!inputValue || !isTyping) {
+    if (!inputValue || !isChangedByTyping) {
       return;
     }
-    setOriginalInputValue(inputValue);
+    setSavedInputValue(inputValue);
+    setCurrentKeywordIndex(-1);
     fetchData();
   }, [debouncedInputValue]);
 
   useEffect(() => {
     if (currentKeywordIndex === -1) {
-      setInputValue(originalInputValue);
+      setInputValue(savedInputValue);
       return;
     }
     setInputValue(keywords[currentKeywordIndex]?.sickNm);
-    setIsTyping(false);
+    setIsChangedByTyping(false);
   }, [currentKeywordIndex]);
 
   return (
     <Container className="App">
+      <h1>국내 모든 임상시험 검색하고 온라인으로 참여하기</h1>
       <input
         type="text"
         value={inputValue}
@@ -49,11 +57,11 @@ function App() {
         <KeywordsList
           items={keywords}
           currentIndex={currentKeywordIndex}
-          originalInputValue={originalInputValue}
+          savedInputValue={savedInputValue}
           isLoading={isLoading}
           removeData={removeData}
         />
-      )}{" "}
+      )}
     </Container>
   );
 }
