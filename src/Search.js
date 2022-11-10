@@ -45,6 +45,9 @@ const Search = () => {
 
   useEffect(() => {
     fetchData();
+    const DeleteCache = setTimeout(() => {
+      localStorage.removeItem('api');
+    }, 20000);
   }, []);
 
   const updateData = async () => {
