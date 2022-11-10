@@ -94,7 +94,6 @@
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
-  // 현재 검색어
   .searchTxt {
     display: none;
     &.on {
@@ -102,6 +101,7 @@
     }
     .text {
       margin-left: 5px;
+      font-weight: bold;
     }
   }
 
@@ -124,7 +124,7 @@
         position: relative;
         padding: 10px 0 0 10px;
         font-size: 14px;
-  
+     
         &::after {
           content: '·';
           position: absolute;
