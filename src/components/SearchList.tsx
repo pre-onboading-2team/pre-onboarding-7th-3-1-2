@@ -5,19 +5,22 @@ import * as S from "./style";
 interface SearchListProps {
   value: string;
   items: Array<SickData>;
+  activeIdx: number;
 }
 
-const SearchList = ({ value, items }: SearchListProps) => {
+export const SearchList = ({ value, items, activeIdx }: SearchListProps) => {
   return (
     <>
-      {/* 입력한 값 하이라이트 검색어 노출 */}
       <SearchItem value={value} keyword={value} />
       <S.SearchItemLabel>추천 검색어</S.SearchItemLabel>
-      {items.map(({ sickCd, sickNm }) => (
-        <SearchItem key={sickCd} value={sickNm} keyword={value} />
+      {items.map(({ sickCd, sickNm }, idx) => (
+        <SearchItem
+          key={sickCd}
+          value={sickNm}
+          keyword={value}
+          isActive={activeIdx === idx}
+        />
       ))}
     </>
   );
 };
-
-export default SearchList;

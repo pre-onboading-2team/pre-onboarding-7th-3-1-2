@@ -63,7 +63,7 @@ export const useSickAsync = (
   const fetchData = async () => {
     dispatch({ type: "LOADING" });
     try {
-      // TODO: 로컬 캐싱 기능 구현하기
+      // TODO: 로컬 캐싱 기능 구현
       if (cache[value]) {
         const data = cache[value];
         dispatch({ type: "SUCCESS", data });

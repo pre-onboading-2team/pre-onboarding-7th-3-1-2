@@ -103,13 +103,15 @@ export const SearchResultBlock = styled.div`
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 `;
 
-export const SearchItemBlock = styled.div`
+export const SearchItemBlock = styled.div<{ isActive: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
   height: 48px;
   padding: 0 2rem;
   font-size: 1.4rem;
+
+  ${(props) => props.isActive && `background: #f8f9fa;`}
 
   &:hover {
     background: #f8f9fa;
