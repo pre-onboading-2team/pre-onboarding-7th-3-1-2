@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import './Search.scss';
 
+
+
 const Search = () => {
 
   const [set, setOn] = useState(false)
@@ -21,6 +23,9 @@ const runServer = (params) => {
   .then(response => response.json())
   .then(result => {
     setData(result);
+
+    
+
   })
 };
 
