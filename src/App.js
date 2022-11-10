@@ -4,8 +4,7 @@ import styled from "styled-components";
 import getKeywords from "./api/getKeywords";
 import KeywordsList from "./components/KeywordsList";
 import { DEBOUNCE_TIME } from "./constants";
-import useAsync from "./hooks/useAsync";
-import useInput from "./hooks/useInput";
+import { useAsync, useDebounce, useInput } from "./hooks";
 
 function App() {
   const [originalInputValue, setOriginalInputValue] = useState("");
@@ -14,22 +13,19 @@ function App() {
     useInput("");
   const {
     data: keyWords,
-    fetchData,
+    asyncFn: fetchData,
     isLoading,
     removeData,
-  } = useAsync(() => getKeywords(inputValue));
+  } = useAsync(() => getKeywords(debouncedInputValue));
+  const debouncedInputValue = useDebounce(inputValue, DEBOUNCE_TIME);
+
   useEffect(() => {
     if (!inputValue || !isTyping) {
       return;
     }
-
-    const timer = setTimeout(async () => {
-      setOriginalInputValue(inputValue);
-      fetchData();
-    }, DEBOUNCE_TIME);
-
-    return () => clearTimeout(timer);
-  }, [inputValue]);
+    setOriginalInputValue(inputValue);
+    fetchData();
+  }, [debouncedInputValue]);
 
   const handleArrowing = (e) => {
     switch (e.key) {

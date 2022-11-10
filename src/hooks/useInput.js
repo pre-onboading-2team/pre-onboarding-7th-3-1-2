@@ -12,5 +12,3 @@ const useInput = (initialValue) => {
 };
 
 export default useInput;
-
-//디바운싱후 vlaue change 후 change타입 체크(방향키무브인지 타이핑인지) => api 요청

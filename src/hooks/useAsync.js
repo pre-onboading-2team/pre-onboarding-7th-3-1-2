@@ -5,7 +5,7 @@ const useAsync = (callback) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const removeData = () => setData(null);
-  const fetchData = async () => {
+  const asyncFn = async () => {
     setIsLoading(true);
     try {
       const result = await callback();
@@ -16,7 +16,7 @@ const useAsync = (callback) => {
     }
   };
 
-  return { fetchData, data, isLoading, error, removeData };
+  return { asyncFn, data, isLoading, error, removeData };
 };
 
 export default useAsync;

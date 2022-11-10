@@ -10,11 +10,12 @@ const KeywordsList = ({
   isLoading,
   removeData,
 }) => {
-  const isEmptyData = keywords?.length === 0;
+  const isEmptyData = keywords === null || keywords.length === 0; //리팩필
   const isSameWithCurrentIndex = (idx) => idx === currentIndex;
   const ul = useRef();
 
   useEffect(() => {
+    if (!keywords) return;
     ul.current.childNodes.forEach((node) => {
       node.innerHTML = replaceWithBold(originalInputValue, node.innerHTML);
     });

@@ -10,11 +10,12 @@ const getKeywords = async (keyword) => {
       const data = await storedCache.json();
       return data;
     }
+
     console.log("api 호출: ", keyword);
-    const res = await fetch(url, {
-      cache: "no-store",
-    });
+    const res = await fetch(url);
+
     await cacheStorage.put(url, res.clone());
+
     const data = await res.json();
     return data;
   } catch (e) {
