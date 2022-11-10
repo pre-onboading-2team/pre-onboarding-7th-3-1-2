@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+## 3주차 1번째 과제(검색기능) 구현사항
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+</br>
 
-## Available Scripts
+# 메인페이지
 
-In the project directory, you can run:
+</br>
 
-### `npm start`
+- ### API호출 횟수를 줄이기 위해서 로컬스토리지 활용하기
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```javascript
+//Search.js
+const fetchData = () => {
+    return fetch('http://localhost:4000/sick')
+      .then(res => res.json())
+      .then(data => {
+        if (data) {
+          localStorage.setItem('api', JSON.stringify(data));
+        }
+        console.info('calling api');
+      });
+  };
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```javascript
+//Search.js
+useEffect(() => {
+    fetchData();
+    const DeleteCache = setTimeout(() => {
+      localStorage.removeItem('api');
+    }, 20000);
+  }, []);
+```
 
-### `npm test`
+API 데이터를 로컬스토리지에 담고 20초가 지나면 다시 삭제되게 구현하였습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+</br>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- ### 이슈목록에 필요한 요소만 이슈 아이템으로 보내기
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```javascript
+//Search.js
+ {search.sickNm.split(keyword)[0]}
+   <span style={{ fontWeight: 'bold' }}>{keyword}</span>
+ {search.sickNm.split(keyword)[1]}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+처음에 input창에 적은 텍스트와 같은 문자는 다 볼드 처리를 하기 위해 이렇게 만들었습니다.
+그러나 앞 글자가 같아야 오게 하는 로직으로 변경시에도 작동하지만 split으로 나눌 필요는 사라집니다.
 
-### `npm run eject`
+</br>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- ### 마우스로 이동구현
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```javascript
+//Search.js
+const keyboardNavigation = useCallback(
+    e => {
+      if (e.key === 'ArrowDown') {
+        isShowing &&
+          setCursor(prev => (prev < keyItems.length - 1 ? prev + 1 : prev));
+        setSelected(keyItems[cursor + 1].sickNm);
+      }
+      if (e.key === 'ArrowUp') {
+        isShowing && setCursor(prev => (prev > 0 ? prev - 1 : 0));
+        setSelected(keyItems[cursor - 1].sickNm);
+      }
+      if (e.key === 'Escape') {
+        setCursor(-1);
+      }
+      if (e.key === 'Enter') {
+        setSelected(keyItems[cursor].sickNm);
+        window.location.href = `/?q=${selected}`;
+      }
+    },
+    [keyItems, isShowing, setCursor, setIsShowing, cursor]
+  );
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+마우스로 검색창의 자동완성에서 이동할 수 있도록 구현했습니다. 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
