@@ -14,7 +14,7 @@ export const SearchItem = ({
   keyword,
   isActive = false,
 }: SearchItemProps) => {
-  const [prefix, subfix] = divideByKeyword(value, keyword);
+  const [prefix, postfix] = divideByKeyword(value, keyword);
 
   return (
     <S.SearchItemBlock isActive={isActive}>
@@ -23,7 +23,7 @@ export const SearchItem = ({
       </S.SearchItemIcon>
       <S.SearchItemText>{prefix}</S.SearchItemText>
       <S.SearchItemMatched>{keyword}</S.SearchItemMatched>
-      <S.SearchItemText>{subfix}</S.SearchItemText>
+      <S.SearchItemText>{postfix}</S.SearchItemText>
     </S.SearchItemBlock>
   );
 };
